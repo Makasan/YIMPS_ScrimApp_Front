@@ -459,17 +459,16 @@ def ScrimBorad ():
         print(data_backEnd["allPosts"])
         for i in data_backEnd["allPosts"]:
             if i['createdby'] == user['teamID'] and not(i["isReady"]):
-                for j in i["req"]:
-                    print()
-                    responeTeam = requests.get("http://34.124.169.53:8000/api/getteam/"+j['teamId'])
-                    data = dict(responeTeam.json())
-                    enemyTeam = data['reqTeam']['teamData']['teamName']
-                    # print(data['reqTeam']['teamData'])
+                # for j in i["req"]:
+                #     responeTeam = requests.get("http://34.124.169.53:8000/api/getteam/"+j['teamId'])
+                #     data = dict(responeTeam.json())
+                #     enemyTeam = data['reqTeam']['teamData']['teamName']
                     checkhavePost = False
                     # print("ShowMyReQuest")
+                    # print(data['reqTeam']['teamData'])
                     label_TeamName = Label(myFrame,image=scrimTemp_picture).grid(row=coutRow,column=coutCol,ipadx=0,ipady=10,padx=10)
                     coutCol += 1
-                    label_TeamName = Label(myFrame,text='      '+enemyTeam+'  ',font=('Arial',12)).grid(row=coutRow,column=coutCol)
+                    label_TeamName = Label(myFrame,text='      '+i["teamName"]+'  ',font=('Arial',12)).grid(row=coutRow,column=coutCol)
                     coutCol += 1
                     label_Server = Label(myFrame,text="Server",font=('Arial',12)).grid(row=coutRow,column=coutCol)
                     coutCol += 1
@@ -477,7 +476,7 @@ def ScrimBorad ():
                     coutCol += 1
                     label_Date = Label(myFrame,text='           '+i["date"],font=('Arial',12)).grid(row=coutRow,column=coutCol)
                     coutCol += 1
-                    label_TeamRank = Label(myFrame,text='           '+data['reqTeam']['teamData']['teamRank'],font=('Arial',12)).grid(row=coutRow,column=coutCol)
+                    label_TeamRank = Label(myFrame,text='           '+i['teamRank'],font=('Arial',12)).grid(row=coutRow,column=coutCol)
                     coutCol += 1
                    
                     # for k in l:
@@ -950,7 +949,7 @@ def Profile():
             rank.set("Rank")
         else:
             rank.set(myRank)
-        #clear = Label(profileFrame,text='',bg=back_ground,font=('Arial',25)).place(relx=0.68,rely=0.15)
+        clear = Label(profileFrame,text='                          ',bg=back_ground,font=('Arial',25)).place(relx=0.68,rely=0.15)
         rankdropdown = ttk.Combobox(profileFrame, textvariable = rank,font=('Arial',15),state='readonly')
         rankdropdown['values'] = rank_list
         rankdropdown.place(relx=0.68,rely=0.16,width=120,height=30)
