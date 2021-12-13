@@ -827,7 +827,7 @@ def ScrimBorad ():
     button_Scrim = Button(win, text='Scrim Board Page',font=('Arial',12),command=ScrimBorad)
     button_Scrim.place(x=270,y=10,height=50,width=150)
 
-    button_Team = Button(win, text='Create Team Page',font=('Arial',12),command=CreateTeam)
+    button_Team = Button(win, text='Team Page',font=('Arial',12),command=CreateTeam)
     button_Team.place(x=470,y=10,height=50,width=150)
     button_Profile = Button(win, text='Profile Page',font=('Arial',12),command=Profile)
     button_Profile.place(x=1015,y=10,height=50,width=120)
@@ -1031,7 +1031,7 @@ def Profile():
     button_Home.place(x=100,y=10,height=50,width=120)
     button_Scrim = Button(win, text='Scrim Board Page',font=('Arial',12),command=ScrimBorad)
     button_Scrim.place(x=270,y=10,height=50,width=150)
-    button_Team = Button(win, text='Create Team Page',font=('Arial',12),command=CreateTeam)
+    button_Team = Button(win, text='Team Page',font=('Arial',12),command=CreateTeam)
     button_Team.place(x=470,y=10,height=50,width=150)
     label_stay = Label(win,bg='#b20000')
     label_stay.place(x=1000,y=0,height=70,width=150)
@@ -1125,7 +1125,7 @@ def HomePage():
 
     button_Scrim = Button(win, text='Scrim Board Page',font=('Arial',12),command=ScrimBorad) 
     button_Scrim.place(x=270,y=10,height=50,width=150)
-    button_Team = Button(win, text='Create Team Page',font=('Arial',12),command=CreateTeam)
+    button_Team = Button(win, text='Team Page',font=('Arial',12),command=CreateTeam)
     button_Team.place(x=470,y=10,height=50,width=150)
     button_Profile = Button(win, text='Profile Page',font=('Arial',12),command=Profile)
     button_Profile.place(x=1015,y=10,height=50,width=120)
@@ -1171,7 +1171,7 @@ def CreateTeam():
         btn_createTeam_page = Button(win,text="Create Your Team NOW!!!",font=('Arial',20),command=createTeamPage)
         btn_createTeam_page.place(x=470,y=200)
 
-    #---------------------------------------------Create Team Page----------------------------------------------------#
+    #---------------------------------------------Team Page----------------------------------------------------#
 
     def createTeamPage():
         Middle_BG = Label(win,bg='white')
@@ -1435,7 +1435,8 @@ def CreateTeam():
                 respone = requests.put('http://34.124.169.53:8000/api/addmember/'+str(teamID_Create),data=dictMember, headers={'Content-Type': 'application/x-www-form-urlencoded'})
                 print(respone.text)
                 downloadMemberPicture()
-                teamPage()
+                #teamPage()
+                CreateTeam()
 
             BGadd = Label(win)
             BGadd.place(x=180+(190*nMember),y=300,width=150,height=150)
@@ -1571,7 +1572,7 @@ def CreateTeam():
     button_Scrim.place(x=270,y=10,height=50,width=150)
     label_stay = Label(win,bg='#b20000')
     label_stay.place(x=455,y=0,height=70,width=180)
-    button_Team = Button(win, text='Create Team Page',font=('Arial',12),command=CreateTeam)
+    button_Team = Button(win, text='Team Page',font=('Arial',12),command=CreateTeam)
     button_Team.place(x=470,y=10,height=50,width=150)
     button_Profile = Button(win, text='Profile Page',font=('Arial',12),command=Profile)
     button_Profile.place(x=1015,y=10,height=50,width=120)
