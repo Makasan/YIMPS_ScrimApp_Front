@@ -74,15 +74,14 @@ def Login ():
         login_Label = Label(mycanvas_login,text="Login",font=('Arial',50),bg=back_ground)
         login_Label.place(x=220,y=50)
         input_UserName = Entry(mycanvas_login, font=('Arial',15),bg=back_ground)
-        input_UserName.insert(0,"MakasanKawaii") #####################################################
+        
         input_UserName.place(x=270,y=200,width=300,height=30)
         #input_UserName.get
         #input_UserName.insert(0,"        8-16 character ")
         input_Label = Label(mycanvas_login,text="User Name       :",font=('Arial',20),bg=back_ground)
         input_Label.place(x=50,y=200,width=210,height=30)
-
         input_Password = Entry(mycanvas_login, show="*" ,font=('Arial',15),bg=back_ground)
-        input_Password.insert(0,"123456789")  #####################################################
+        
         input_Password.place(x=270,y=250,width=300,height=30)
         #input_Password.get
         #input_Password.insert(0,"Password")
