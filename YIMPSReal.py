@@ -1,3 +1,4 @@
+#####Real
 import base64
 from tkinter import*
 from tkinter import ttk
@@ -7,6 +8,7 @@ import hashlib
 import requests
 import time
 from datetime import datetime
+import os
 
 window_width = 1280
 window_height = 720
@@ -17,15 +19,21 @@ win.title("YIMPS Tabs")
 back_ground = 'white'
 checkstart = True
 
-Logo_Image = ImageTk.PhotoImage((Image.open("Image/Icon/Logo.png")).resize((50,50)))  
-hiddenpass_Image = ImageTk.PhotoImage((Image.open("image/Icon/hidden.png")).resize((10,10)))
-showpass_Image = ImageTk.PhotoImage((Image.open("image/Icon/show.png")).resize((10,10)))
-BGimage = ImageTk.PhotoImage(Image.open("BG/XboxBG.jpeg").resize((window_width,window_height)))
-searchTeam_Text = ImageTk.PhotoImage(Image.open("PicText/SearchTeam.png").resize((130,25)))
-sortBy_Text = ImageTk.PhotoImage(Image.open("PicText/SortBy.png").resize((100,20))) #adBox.png
-adBox_Picture = ImageTk.PhotoImage(Image.open("BG/adBox.png").resize((120,450)))
-underbar_Picture = ImageTk.PhotoImage(Image.open("BG/Underbar.png").resize((1280,50)))
-scrimTemp_picture = ImageTk.PhotoImage(Image.open("BG/kawaii2.png").resize((40,40)))
+global thisPath
+thisPath=os.path.dirname(os.path.abspath(__file__))
+thisPath=thisPath.replace("\\",'/')
+
+
+
+Logo_Image = ImageTk.PhotoImage((Image.open( thisPath + "/Image/Icon/Logo.png")).resize((50,50)))  
+hiddenpass_Image = ImageTk.PhotoImage((Image.open(thisPath + "/Image/Icon/hidden.png")).resize((10,10)))
+showpass_Image = ImageTk.PhotoImage((Image.open(thisPath + "/Image/Icon/show.png")).resize((10,10)))
+BGimage = ImageTk.PhotoImage(Image.open(thisPath + "/BG/XboxBG.jpeg").resize((window_width,window_height)))
+searchTeam_Text = ImageTk.PhotoImage(Image.open(thisPath + "/PicText/SearchTeam.png").resize((130,25)))
+sortBy_Text = ImageTk.PhotoImage(Image.open(thisPath + "/PicText/SortBy.png").resize((100,20))) #adBox.png
+adBox_Picture = ImageTk.PhotoImage(Image.open(thisPath + "/BG/adBox.png").resize((120,450)))
+underbar_Picture = ImageTk.PhotoImage(Image.open(thisPath + "/BG/Underbar.png").resize((1280,50)))
+scrimTemp_picture = ImageTk.PhotoImage(Image.open(thisPath + "/BG/kawaii2.png").resize((40,40)))
 # def clock():
 #     global dayNow
 #     dayNow = time.strftime("%d")   
@@ -108,7 +116,7 @@ def Login ():
                 login_Frame.destroy()
                 #ScrimBorad()
                 Profile()
-                #home_page() 
+                #HomePage()
                 
 
         def showpass():
@@ -335,15 +343,19 @@ def ScrimBorad ():
                     #label_space.grid(row=coutRow,column=coutCol)
                     #coutCol += 1
                     id_post = i['id']
-                    #id_req = i['req']
+                    id_req = i['req']
                     #button_Request = Button(myFrame, text="  Request \n for Scrim",bg=bgl[p],command= lambda: request(i['id']))
                     #print(user['teamID']) 
-                    # for id_req_i in id_req:
-                    #     if user['teamID'] == id_req_i['teamId']:
-                    #         button_noTeam= Button(myFrame, text=" You already \n Scrim Team",bg="red") 
-                    #         button_noTeam.grid(row=coutRow,column=coutCol,pady=10,padx=0,ipadx=0,ipady=5)
-                    #         checkbuttonScrim = False 
                     
+                    for id_req_i in id_req:
+                        # print(id_req_i['teamId'])
+                        # print(user['teamID'])
+                        if user['teamID'] == id_req_i['teamId']:
+                            
+                            button_noTeam= Button(myFrame, text=" You already \n Scrim Team",bg="red") 
+                            button_noTeam.grid(row=coutRow,column=coutCol,pady=10,padx=0,ipadx=0,ipady=5)
+                            checkbuttonScrim = False 
+                
                     if user['teamID'] != '':
                         if checkbuttonScrim:
                             if i['createdby'] == user['teamID']:
@@ -381,17 +393,17 @@ def ScrimBorad ():
                     #label_space.grid(row=coutRow,column=coutCol)
                     #coutCol += 1
                     id_post = i['id']
-                    #id_req = i['req']
+                    id_req = i['req']
                     #button_Request = Button(myFrame, text="  Request \n for Scrim",bg=bgl[p],command= lambda: request(i['id']))
                     #print(user['teamID']) 
                     
-                    # for id_req_i in id_req:
-                    #     if user['teamID'] == id_req_i['teamId']:
-                    #         #print("You already Scrim")
-                    #         button_noTeam= Button(myFrame, text=" You already \n Scrim Team",bg="red") 
-                    #         #button_noTeam.place(x=300,y=100,height=10000,width=10000)
-                    #         button_noTeam.grid(row=coutRow,column=coutCol,pady=10,padx=0,ipadx=0,ipady=5)
-                    #         checkbuttonScrim = False 
+                    for id_req_i in id_req:
+                        if user['teamID'] == id_req_i['teamId']:
+                            #print("You already Scrim")
+                            button_noTeam= Button(myFrame, text=" You already \n Scrim Team",bg="red") 
+                            #button_noTeam.place(x=300,y=100,height=10000,width=10000)
+                            button_noTeam.grid(row=coutRow,column=coutCol,pady=10,padx=0,ipadx=0,ipady=5)
+                            checkbuttonScrim = False 
                     
                     if user['teamID'] != '':
                         if checkbuttonScrim:
@@ -420,6 +432,8 @@ def ScrimBorad ():
         #respone = requests.post("http://34.124.169.53:8000/api/getteam/teamid", data=dict, headers={'Content-Type': 'application/x-www-form-urlencoded'})
         respone = requests.put("http://34.124.169.53:8000/api/request-to-scrim/" + str(id_post), data=dict, headers={'Content-Type': 'application/x-www-form-urlencoded'})
         print(respone.text)
+        ScrimBorad()
+
     
     def showMyRequest():
         
@@ -446,30 +460,43 @@ def ScrimBorad ():
         print(data_backEnd["allPosts"])
         for i in data_backEnd["allPosts"]:
             if i['createdby'] == user['teamID'] and not(i["isReady"]):
-                checkhavePost = False
-                print("ShowMyReQuest")
-                label_TeamName = Label(myFrame,image=scrimTemp_picture).grid(row=coutRow,column=coutCol,ipadx=0,ipady=10,padx=10)
-                coutCol += 1
-                label_TeamName = Label(myFrame,text='      '+myTeam+'  ',font=('Arial',12)).grid(row=coutRow,column=coutCol)
-                coutCol += 1
-                label_Server = Label(myFrame,text="Server",font=('Arial',12)).grid(row=coutRow,column=coutCol)
-                coutCol += 1
-                for j in l:
-                    label = Label(myFrame,text='           '+i[j],font=('Arial',12))
-                    label.grid(row=coutRow,column=coutCol)
+                for j in i["req"]:
+                    print()
+                    responeTeam = requests.get("http://34.124.169.53:8000/api/getteam/"+j['teamId'])
+                    data = dict(responeTeam.json())
+                    enemyTeam = data['reqTeam']['teamData']['teamName']
+                    # print(data['reqTeam']['teamData'])
+                    checkhavePost = False
+                    # print("ShowMyReQuest")
+                    label_TeamName = Label(myFrame,image=scrimTemp_picture).grid(row=coutRow,column=coutCol,ipadx=0,ipady=10,padx=10)
                     coutCol += 1
-                    # label_space = Label(myFrame,text='')
-                    # label_space.grid(row=coutRow,column=coutCol)
-                    # coutCol += 1
-                #coutCol += 1
-                id_post = i['id']
-                #button_Request = Button(myFrame, text="  Request \n for Scrim",bg=bgl[p],command= lambda: request(i['id'])) 
-                if i['createdby'] == user['teamID']:
-                    button_ViewRequest = Button(myFrame, text="View \n Request",command=lambda id_post=id_post:viewMyRequest(id_post)) 
-                    #button_ViewRequest.place(x=750,y=10,height=50)
-                    button_ViewRequest.grid(row=coutRow,column=coutCol,pady=10,padx=50,ipadx=0,ipady=5)
-                coutCol = 0
-                coutRow += 1
+                    label_TeamName = Label(myFrame,text='      '+enemyTeam+'  ',font=('Arial',12)).grid(row=coutRow,column=coutCol)
+                    coutCol += 1
+                    label_Server = Label(myFrame,text="Server",font=('Arial',12)).grid(row=coutRow,column=coutCol)
+                    coutCol += 1
+                    label_Time = Label(myFrame,text='           '+i["time"],font=('Arial',12)).grid(row=coutRow,column=coutCol)
+                    coutCol += 1
+                    label_Date = Label(myFrame,text='           '+i["date"],font=('Arial',12)).grid(row=coutRow,column=coutCol)
+                    coutCol += 1
+                    label_TeamRank = Label(myFrame,text='           '+data['reqTeam']['teamData']['teamRank'],font=('Arial',12)).grid(row=coutRow,column=coutCol)
+                    coutCol += 1
+                   
+                    # for k in l:
+                    #     label = Label(myFrame,text='           '+i[j][k],font=('Arial',12))
+                    #     label.grid(row=coutRow,column=coutCol)
+                    #     coutCol += 1
+                        # label_space = Label(myFrame,text='')
+                        # label_space.grid(row=coutRow,column=coutCol)
+                        # coutCol += 1
+                    #coutCol += 1
+                    id_post = i['id']
+                    #button_Request = Button(myFrame, text="  Request \n for Scrim",bg=bgl[p],command= lambda: request(i['id'])) 
+                    if i['createdby'] == user['teamID']:
+                        button_ViewRequest = Button(myFrame, text="View \n Request",command=lambda id_post=id_post:viewMyRequest(id_post)) 
+                        #button_ViewRequest.place(x=750,y=10,height=50)
+                        button_ViewRequest.grid(row=coutRow,column=coutCol,pady=10,padx=50,ipadx=0,ipady=5)
+                    coutCol = 0
+                    coutRow += 1
         if checkhavePost:
             noTeam_label = Label(win,text="You don't have a post team",font=('Arial',20),fg='red')
             noTeam_label.place(x=450,y=350,height=50,width=500)
@@ -530,9 +557,10 @@ def ScrimBorad ():
         label_Date = Label(myRequest,text='              '+dataPost['date'],font=('Arial',12)).grid(row=coutRow,column=coutCol)
         coutCol += 1
         label_teanRank = Label(myRequest,text='              '+dataPost['teamRank'],font=('Arial',12)).grid(row=coutRow,column=coutCol)
-        
+
         backAllBorad_Button = Button(boradMyRequest_Frame,text="Back",bg="pink",command=goShowMyRequest)
         backAllBorad_Button.place(x=750,y=5,height=50,width=60)
+        print(teamDataPost)
         if teamDataPost != [] :
             coutCol = 0
             teamScrimID = (teamDataPost[0])['teamId']
@@ -542,9 +570,11 @@ def ScrimBorad ():
             #print(scrimTeam)
 
             for i in range(len(teamDataPost)):
+                # print("teamData post")
+                # print(i)
                 label_TeamName = Label(myFrame,image=scrimTemp_picture).grid(row=coutRow,column=coutCol,ipadx=0,ipady=10,padx=10)
                 coutCol += 1
-                label_TeamName = Label(myFrame,text=dataPost["teamName"],font=('Arial',12)).grid(row=coutRow+i,column=coutCol)
+                label_TeamName = Label(myFrame,text=scrimTeam["teamName"],font=('Arial',12)).grid(row=coutRow+i,column=coutCol)
                 coutCol += 1
                 label_Server = Label(myFrame,text="Server",font=('Arial',12)).grid(row=coutRow+i,column=coutCol)
                 coutCol += 1
@@ -767,6 +797,7 @@ def ScrimBorad ():
     #sortType = [ "Team Name", "Server", "Rank", "Date&Time", "Rating"]
     sortType = ["rank", "date"]
     l = ["time","date","teamRank"]
+
     start = False
     sortby_Label = Label(win,image=sortBy_Text,bd=0)                          #Sort By 
     sortby_Label.place(relx=0.49,rely=0.18)
@@ -818,13 +849,13 @@ def Profile():
         #print(type(picture["image"]))
         image_ = picture["image"].encode('utf-8')
         image_ = base64.decodebytes(image_)
-        download = ('Image/' + user["currentUserID"] + ".png")
+        download = (thisPath + '/Image/PictureProfile/' + user["currentUserID"] + ".png")
         #print("mynameImage = " + download)
         output = open(download, 'wb')
         output.write(image_)
         output.close()
         
-        pathPicture = "Image/" + user["currentUserID"] + ".png"
+        pathPicture = thisPath + "/Image/PictureProfile/" + user["currentUserID"] + ".png"
         #print(check)
         imagepic = Image.open(pathPicture)
         #print(imagepic)
@@ -1026,17 +1057,17 @@ def HomePage():
     temp = Canvas(win, bg=back_ground, width=window_width, height=window_height)
     temp.place(x=1 , y=1)
     background_Home = Label(win,image=BGimage).place(height=window_height,width=window_width)
-    framLabel = Label(win,bg='#EBEBEB',bd=10).place(x=220,y=110,height=480,width=930)
-    yourScrim_Label = Label(win, text="Your Scrim", font=('Arial',20),bg='#EBEBEB')
+    framLabel = Label(win,bg=back_ground,bd=10).place(x=220,y=110,height=480,width=930)
+    yourScrim_Label = Label(win, text="Your Scrim", font=('Arial',20),bg=back_ground)
     yourScrim_Label.place(x=250,y=135)
-    incom_Label = Label(win, text="Incoming Match :  ", font=('Arial',15),bg='#EBEBEB')
+    incom_Label = Label(win, text="Incoming Match :  ", font=('Arial',15),bg=back_ground)
     incom_Label.place(x=720,y=150)
     if fivemath['nextFivePost'] != []:    
-        match_Incom_Label = Label(win, text=((fivemath['nextFivePost'][0])['teamName'])+"  VS  "+((fivemath['nextFivePost'][0])['enemyTeamName']),fg='red' ,font=('Arial',15),bg='#EBEBEB')
+        match_Incom_Label = Label(win, text=((fivemath['nextFivePost'][0])['teamName'])+"  VS  "+((fivemath['nextFivePost'][0])['enemyTeamName']),fg='red' ,font=('Arial',15),bg=back_ground)
         match_Incom_Label.place(x=900,y=150)
     else:
-        match_Incom_Label = Label(win, text="Don't have",fg='red' ,font=('Arial',15),bg='#EBEBEB')
-        match_Incom_Label.place(x=1040,y=150)
+        match_Incom_Label = Label(win, text="Don't have",fg='red' ,font=('Arial',15),bg=back_ground)
+        match_Incom_Label.place(x=900,y=150)
     adBox = Label(win, image=adBox_Picture)
     adBox.place(relx=0.03,rely=0.2)
     
@@ -1217,7 +1248,7 @@ def CreateTeam():
                 picture = dict(download_respone.json())
                 image_ = picture["image"].encode('utf-8')
                 image_ = base64.decodebytes(image_)
-                download = ('Image/PictureProfile/' + memberID + ".png")
+                download = (thisPath + '/Image/PictureProfile/' + memberID + ".png")
                 output = open(download, 'wb')
                 output.write(image_)
                 output.close()  
@@ -1225,7 +1256,7 @@ def CreateTeam():
         def updateMemberPicture():
             for n in range(nMember):
                 memberID = memberList[n]['userid']
-                pathPicture = "Image/PictureProfile/" + memberID + ".png"
+                pathPicture = thisPath + "/Image/PictureProfile/" + memberID + ".png"
                 imagepic = Image.open(pathPicture)
                 memberData.append(ImageTk.PhotoImage(imagepic.resize((150, 150))))
                 member_Image = Label(win, image= memberData[n])
@@ -1236,12 +1267,12 @@ def CreateTeam():
             picture = dict(download_respone.json())
             image_ = picture["image"].encode('utf-8')
             image_ = base64.decodebytes(image_)
-            download = ('Image/PictureTeam/' + teamID_Create + ".png")
+            download = (thisPath + '/Image/PictureTeam/' + teamID_Create + ".png")
             output = open(download, 'wb')
             output.write(image_)
             output.close()
             global profile_Image
-            pathPicture = "Image/PictureTeam/" + teamID_Create + ".png"
+            pathPicture = thisPath + "/Image/PictureTeam/" + teamID_Create + ".png"
 
             imagepic = Image.open(pathPicture)
             profile_Image = ImageTk.PhotoImage(imagepic.resize((150, 150)))
@@ -1350,9 +1381,38 @@ def CreateTeam():
         teamData = dict(respone.json())
         teamLeadID = teamData['reqTeam']['teamData']['teamLead']
 
+        def leaveTeam():
+        
+            def cancelLeave():
+                checkLeaveTeamBG.destroy()
+                confirmLeaveBTN.destroy()
+                cancelLeaveBTN.destroy()
+
+            def confirmLeave():
+                dictMember = {
+                    "userid":UserID
+                }
+                respone = requests.put('http://34.124.169.53:8000/api/removemember/'+str(teamID),data=dictMember,headers={'Content-Type': 'application/x-www-form-urlencoded'})
+                print(respone.text)
+                CreateTeam()
+
+            checkLeaveTeamBG = Label(win,background='white')
+            checkLeaveTeamBG.place(x=920,y=220,width=200,height=20)
+
+            confirmLeaveBTN = Button(win,text='YAH',font=('Arial',10),background='lightgreen',command=confirmLeave)
+            confirmLeaveBTN.place(x=920,y=220,width=50,height=20)
+
+            cancelLeaveBTN = Button(win,text='NAH',font=('Arial',10),background='red',command=cancelLeave)
+            cancelLeaveBTN.place(x=980,y=220,width=50,height=20)
+
+            
+
         if loginUserID == teamLeadID:
             edit_Button = Button(win,text='EDIT',font=('Arial',12),command=editButton)
             edit_Button.place(x=1050,y=90,width=50,height=30)
+        else:
+            leave_team_Button = Button(win,text='LEAVE TEAM',font=('Arial',8),background='pink',command=leaveTeam)
+            leave_team_Button.place(x=920,y=220,width=80,height=20)
 
         #---------------------------------------------Add Member--------------------------------------------------------#
         def addMember():
@@ -1493,7 +1553,7 @@ def CreateTeam():
             picture = dict(download_respone.json())
             image_ = picture["image"].encode('utf-8')
             image_ = base64.decodebytes(image_)
-            download = ('Image/PictureProfile/' + memberID + ".png")
+            download = (thisPath + '/Image/PictureProfile/' + memberID + ".png")
             output = open(download, 'wb')
             output.write(image_)
             output.close()
