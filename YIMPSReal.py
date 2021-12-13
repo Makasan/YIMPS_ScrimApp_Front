@@ -1434,9 +1434,15 @@ def CreateTeam():
                 }
                 respone = requests.put('http://34.124.169.53:8000/api/addmember/'+str(teamID_Create),data=dictMember, headers={'Content-Type': 'application/x-www-form-urlencoded'})
                 print(respone.text)
-                downloadMemberPicture()
-                #teamPage()
-                CreateTeam()
+                check_warning = dict(respone.json())["message"]
+                print(check_warning)
+                if "User alreay have a team" in  check_warning :
+                    warning = Label(win,text="User Already Have A Team ",fg='red',bg='white')
+                    warning.place(x=180+(190*nMember),y=500,width=150,height=30)
+                else:
+                    downloadMemberPicture()
+                    #teamPage()
+                    CreateTeam()
 
             BGadd = Label(win)
             BGadd.place(x=180+(190*nMember),y=300,width=150,height=150)
