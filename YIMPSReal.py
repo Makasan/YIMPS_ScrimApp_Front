@@ -733,7 +733,8 @@ def ScrimBorad ():
                 boradAddFrame.place(x=1000,y=1000)
                 respone = requests.get("http://34.124.169.53:8000/api/getallposts")
                 data_backEnd = dict(respone.json()) 
-                show_boardscrim(data_backEnd)
+                #show_boardscrim(data_backEnd)
+                ScrimBorad()
             
 
 
